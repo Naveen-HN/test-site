@@ -1,31 +1,56 @@
 import React, { Component } from "react";
+import axios from "axios";
 
 class Login extends Component {
-  state = {
-    details: {
+  constructor(props) {
+    super(props);
+    this.state = {
       userName: "",
-      password: ""
-    },
-    errors: {}
-  };
+      password: "",
+      data: []
+    };
+  }
+
+  componentDidMount() {
+    axios
+      .get("http://localhost:4000/users")
+      .then(res => {
+        this.setState({
+          data: res.data
+        });
+      })
+      .catch(err => {
+        console.log(err);
+      });
+  }
 
   handleChange = event => {
-    const [name, value] = event.target;
     this.setState({
-      [name]: value
+      [event.target.name]: event.target.value
     });
   };
 
   handleSubmit = event => {
     event.preventDefault();
-    if (this.validateForm()) {
-      let det = {};
-      det["userName"] = "";
-      det["password"] = "";
-      this.setState({
-        details: det
-      });
-      alert("Login Successful");
+    const users = this.state.data.map(function(item) {
+      return item["userName"];
+    });
+    const passes = this.state.data.map(function(item) {
+      return item["password"];
+    });
+    if (
+      users.includes(this.state.userName) &&
+      passes.includes(this.state.password)
+    ) {
+      if (
+        users.indexOf(this.state.userName) ===
+        passes.indexOf(this.state.password)
+      ) {
+        console.log("its true");
+        window.location.href = "/loggedin";
+      }
+    } else {
+      alert("No users found");
     }
   };
 
@@ -59,9 +84,9 @@ class Login extends Component {
               name="userName"
               type="email"
               placeholder="Username.."
+              value={this.state.userName}
               onChange={this.handleChange}
             />{" "}
-            <div className="errorMsg"> {this.state.errors.username} </div>{" "}
           </div>{" "}
           <div id="row">
             <label> Password: </label>{" "}
@@ -69,9 +94,9 @@ class Login extends Component {
               name="password"
               type="password"
               placeholder="Password.."
+              value={this.state.password}
               onChange={this.handleChange}
             />{" "}
-            <div className="errorMsg"> {this.state.errors.password} </div>{" "}
           </div>{" "}
           <div id="row">
             <button value="submit" onClick={this.handleSubmit}>

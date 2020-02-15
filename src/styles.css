@@ -1,11 +1,24 @@
+html {
+  height: 100%;
+  margin: 0;
+  padding: 0;
+}
+
 body {
   font-family: Arial, Helvetica, sans-serif;
   font-size: 15px;
   line-height: 1.5;
+  height: 100%;
   padding: 0;
   margin: 0;
   background-color: #f4f4f4;
 }
+
+#wrapper {
+  min-height: 100%;
+  position: relative;
+}
+
 
 .container {
   width: 80%;
@@ -20,6 +33,7 @@ header {
   min-height: 70px;
   border-bottom: #e8491d 3px solid;
 }
+
 
 header li {
   float: left;
@@ -40,7 +54,7 @@ header nav {
   margin-top: 10px;
 }
 
-span {
+#w {
   color: #e8491d;
   font-weight: bolder;
   font-family: Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
@@ -80,4 +94,8 @@ button {
 .errorMsg {
   color: #cc0000;
   margin-bottom: 12px;
+}
+
+.fb {
+  position: absolute;
 }
