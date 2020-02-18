@@ -1,27 +1,10 @@
 import React, { Component } from "react";
-import axios from "axios";
+import { connect } from "react-redux";
+import { userLogin } from "../actions/postActions";
 
 class Login extends Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      userName: "",
-      password: "",
-      data: []
-    };
-  }
-
-  componentDidMount() {
-    axios
-      .get("http://localhost:4000/users")
-      .then(res => {
-        this.setState({
-          data: res.data
-        });
-      })
-      .catch(err => {
-        console.log(err);
-      });
+  componentWillMount() {
+    this.props.userLogin();
   }
 
   handleChange = event => {
@@ -47,31 +30,11 @@ class Login extends Component {
         passes.indexOf(this.state.password)
       ) {
         console.log("its true");
-        window.location.href = "/loggedin";
+        this.props.history.push("/loggedin");
       }
     } else {
       alert("No users found");
     }
-  };
-
-  validateForm = () => {
-    let details = this.state.details;
-    let errors = {};
-    let formIsValid = true;
-
-    if (!details["userName"]) {
-      formIsValid = false;
-      errors["username"] = "*Please enter a username*";
-    }
-
-    if (!details["password"]) {
-      formIsValid = false;
-      errors["password"] = "*Please enter a password*";
-    }
-    this.setState({
-      errors: errors
-    });
-    return formIsValid;
   };
 
   render() {
@@ -84,7 +47,7 @@ class Login extends Component {
               name="userName"
               type="email"
               placeholder="Username.."
-              value={this.state.userName}
+              value={this.props.user.userName}
               onChange={this.handleChange}
             />{" "}
           </div>{" "}
@@ -94,7 +57,7 @@ class Login extends Component {
               name="password"
               type="password"
               placeholder="Password.."
-              value={this.state.password}
+              value={this.props.user.password}
               onChange={this.handleChange}
             />{" "}
           </div>{" "}
@@ -109,4 +72,8 @@ class Login extends Component {
   }
 }
 
-export default Login;
+const mapStateToProps = state => ({
+  user: state.post.data
+});
+
+export default connect(mapStateToProps, { userLogin })(Login);
