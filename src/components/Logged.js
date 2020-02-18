@@ -1,9 +1,9 @@
 import React from "react";
 
-function Logged() {
+function Logged(props) {
   return (
     <div>
-      <h1> Welcome! You are logged in! </h1>
+      <h1> Welcome!You are logged in! </h1>{" "}
     </div>
   );
 }

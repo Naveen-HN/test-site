@@ -33,25 +33,43 @@ class Login extends Component {
   handleSubmit = event => {
     event.preventDefault();
     const users = this.state.data.map(function(item) {
-      return item["userName"];
+      return {
+        username: item.userName,
+        password: item.password
+      };
     });
-    const passes = this.state.data.map(function(item) {
-      return item["password"];
-    });
-    if (
-      users.includes(this.state.userName) &&
-      passes.includes(this.state.password)
-    ) {
-      if (
-        users.indexOf(this.state.userName) ===
-        passes.indexOf(this.state.password)
-      ) {
-        console.log("its true");
-        window.location.href = "/loggedin";
+    console.log("users", users);
+    const pass = users.filter(item => {
+      if (item.username === this.state.userName) {
+        console.log("item username", item.username);
+        console.log("item password", item.password);
+        return item;
       }
+    });
+    var password = pass.map(function(i) {
+      return i.password;
+    });
+    console.log("pass", password);
+    console.log("state", this.state.password);
+    //console.log("this ", pass.password);
+    if (password.includes(this.state.password)) {
+      console.log("user found");
+      this.props.history.push("/loggedin");
     } else {
       alert("No users found");
     }
+
+    //   if (
+    //     users.includes(this.state.userName) &&
+    //     users.includes(this.state.password)
+    //   ) {
+    //     if (
+    //       users.indexOf(this.state.userName) ===
+    //       users.indexOf(this.state.password)
+    //     ) {
+    //       console.log("its true");
+    //       this.props.history.push("/loggedin");
+    //     }}
   };
 
   validateForm = () => {
