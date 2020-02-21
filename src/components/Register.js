@@ -1,5 +1,7 @@
 import React, { Component } from "react";
 import "../styles.css";
+import { createUser } from "../Actions";
+import { connect } from "react-redux";
 class Register extends Component {
   state = {
     fields: {
@@ -23,50 +25,38 @@ class Register extends Component {
 
   handleSubmit = event => {
     event.preventDefault();
-    if (this.validateForm()) {
-      let fields = {};
-      fields["firstName"] = "";
-      fields["lastName"] = "";
-      fields["phone"] = "";
-      fields["userName"] = "";
-      fields["password"] = "";
-      fields["confirmPassword"] = "";
-      this.setState({
-        fields: fields
-      });
-      alert("Form submitted");
-    }
+    this.props.dispatch(createUser(this.state.fields));
   };
 
-  validateForm = () => {
-    let fields = this.state.fields;
-    let errors = {};
-    let formIsValid = true;
-    if (!fields["firstName"]) {
-      formIsValid = false;
-      errors["firstName"] = "*Please enter your firstname.";
-    }
+  // validateForm = () => {
+  //   let fields = this.state.fields;
+  //   let errors = {};
+  //   let formIsValid = true;
+  //   if (!fields["firstName"]) {
+  //     formIsValid = false;
+  //     errors["firstName"] = "*Please enter your firstname.";
+  //   }
 
-    if (!fields["userName"]) {
-      formIsValid = false;
-      errors["userName"] = "*Please enter your email-ID.";
-    }
+  //   if (!fields["userName"]) {
+  //     formIsValid = false;
+  //     errors["userName"] = "*Please enter your email-ID.";
+  //   }
 
-    if (!fields["phone"]) {
-      formIsValid = false;
-      errors["phone"] = "*Please enter your mobile no.";
-    }
+  //   if (!fields["phone"]) {
+  //     formIsValid = false;
+  //     errors["phone"] = "*Please enter your mobile no.";
+  //   }
 
-    if (!fields["password"]) {
-      formIsValid = false;
-      errors["password"] = "*Please enter your password.";
-    }
+  //   if (!fields["password"]) {
+  //     formIsValid = false;
+  //     errors["password"] = "*Please enter your password.";
+  //   }
 
-    this.setState({
-      errors: errors
-    });
-    return formIsValid;
-  };
+  //   this.setState({
+  //     errors: errors
+  //   });
+  //   return formIsValid;
+  // };
 
   render() {
     return (
@@ -137,4 +127,10 @@ class Register extends Component {
   }
 }
 
-export default Register;
+const mapStateToProps = state => {
+  return {
+    user: state.createUserReducer.user
+  };
+};
+
+export default connect(mapStateToProps)(Register);
