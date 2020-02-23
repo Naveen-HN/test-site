@@ -1,52 +1,40 @@
 import React, { Component } from "react";
+import { connect } from "react-redux";
+import { userLogin } from "../actions/postActions";
 
 class Login extends Component {
-  state = {
-    details: {
-      userName: "",
-      password: ""
-    },
-    errors: {}
-  };
+  componentWillMount() {
+    this.props.userLogin();
+  }
 
   handleChange = event => {
-    const [name, value] = event.target;
     this.setState({
-      [name]: value
+      [event.target.name]: event.target.value
     });
   };
 
   handleSubmit = event => {
     event.preventDefault();
-    if (this.validateForm()) {
-      let det = {};
-      det["userName"] = "";
-      det["password"] = "";
-      this.setState({
-        details: det
-      });
-      alert("Login Successful");
-    }
-  };
-
-  validateForm = () => {
-    let details = this.state.details;
-    let errors = {};
-    let formIsValid = true;
-
-    if (!details["userName"]) {
-      formIsValid = false;
-      errors["username"] = "*Please enter a username*";
-    }
-
-    if (!details["password"]) {
-      formIsValid = false;
-      errors["password"] = "*Please enter a password*";
-    }
-    this.setState({
-      errors: errors
+    const users = this.state.data.map(function(item) {
+      return item["userName"];
     });
-    return formIsValid;
+    const passes = this.state.data.map(function(item) {
+      return item["password"];
+    });
+    if (
+      users.includes(this.state.userName) &&
+      passes.includes(this.state.password)
+    ) {
+      if (
+        users.indexOf(this.state.userName) ===
+        passes.indexOf(this.state.password)
+      ) {
+        console.log("its true");
+        this.props.history.push("/loggedin");
+      }
+    } else {
+      alert("No users found");
+    }
   };
 
   render() {
@@ -59,9 +47,9 @@ class Login extends Component {
               name="userName"
               type="email"
               placeholder="Username.."
+              value={this.props.user.userName}
               onChange={this.handleChange}
             />{" "}
-            <div className="errorMsg"> {this.state.errors.username} </div>{" "}
           </div>{" "}
           <div id="row">
             <label> Password: </label>{" "}
@@ -69,9 +57,9 @@ class Login extends Component {
               name="password"
               type="password"
               placeholder="Password.."
+              value={this.props.user.password}
               onChange={this.handleChange}
             />{" "}
-            <div className="errorMsg"> {this.state.errors.password} </div>{" "}
           </div>{" "}
           <div id="row">
             <button value="submit" onClick={this.handleSubmit}>
@@ -84,4 +72,8 @@ class Login extends Component {
   }
 }
 
-export default Login;
+const mapStateToProps = state => ({
+  user: state.post.data
+});
+
+export default connect(mapStateToProps, { userLogin })(Login);

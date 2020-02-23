@@ -1,31 +1,58 @@
 import React, { Component } from "react";
 import "../styles.css";
+<<<<<<< HEAD
 import { createUser } from "../Actions";
 import { connect } from "react-redux";
+=======
+import axios from "axios";
+import FacebookLogin from "react-facebook-login";
+>>>>>>> 7b18bd9d06b77f3dc2f0f90e6563ac546a15fac2
 class Register extends Component {
-  state = {
-    fields: {
+  constructor(props) {
+    super(props);
+    this.state = {
       firstName: "",
       lastName: "",
       phone: "",
       userName: "",
       password: "",
       confirmPassword: ""
-    },
-    errors: {}
+    };
+  }
+
+  responseFacebook = response => {
+    console.log(response);
   };
 
+  componentClicked = () => console.log("Clicked");
+
   handleChange = event => {
-    let fields = this.state.fields;
-    fields[event.target.name] = event.target.value;
     this.setState({
-      fields
+      [event.target.name]: event.target.value
     });
   };
 
   handleSubmit = event => {
     event.preventDefault();
+<<<<<<< HEAD
     this.props.dispatch(createUser(this.state.fields));
+=======
+    // if (this.validateForm()) {
+    const newUser = {
+      firstName: this.state.firstName,
+      lastName: this.state.lastName,
+      phone: this.state.phone,
+      userName: this.state.userName,
+      password: this.state.password,
+      confirmPassword: this.state.confirmPassword
+    };
+
+    axios
+      .post("http://localhost:4000/users/add", newUser)
+      .then(res => console.log(res.data));
+
+    alert("Form submitted");
+>>>>>>> 7b18bd9d06b77f3dc2f0f90e6563ac546a15fac2
   };
 
   // validateForm = () => {
@@ -68,9 +95,9 @@ class Register extends Component {
               name="firstName"
               type="text"
               placeholder="First Name.."
+              value={this.state.firstName}
               onChange={this.handleChange}
             />{" "}
-            <div className="errorMsg"> {this.state.errors.firstName} </div>{" "}
           </div>{" "}
           <div id="row">
             <label> Last Name: </label>{" "}
@@ -78,13 +105,19 @@ class Register extends Component {
               name="lastName"
               type="text"
               placeholder="Last Name.."
+              value={this.state.lastName}
               onChange={this.handleChange}
             />{" "}
           </div>{" "}
           <div id="row">
             <label> Phone number: </label>{" "}
-            <input name="phone" type="text" onChange={this.handleChange} />{" "}
-            <div className="errorMsg"> {this.state.errors.phone} </div>{" "}
+            <input
+              name="phone"
+              type="text"
+              placeholder="Phone number.."
+              value={this.state.phone}
+              onChange={this.handleChange}
+            />{" "}
           </div>{" "}
           <div id="row">
             <label> Username: </label>{" "}
@@ -92,9 +125,9 @@ class Register extends Component {
               name="userName"
               type="email"
               placeholder="Enter your email.."
+              value={this.state.userName}
               onChange={this.handleChange}
             />{" "}
-            <div className="errorMsg"> {this.state.errors.userName} </div>{" "}
           </div>{" "}
           <div id="row">
             <label> Password: </label>{" "}
@@ -102,9 +135,9 @@ class Register extends Component {
               name="password"
               type="password"
               placeholder="Password.."
+              value={this.state.password}
               onChange={this.handleChange}
             />{" "}
-            <div className="errorMsg"> {this.state.errors.username} </div>{" "}
           </div>{" "}
           <div id="row">
             <label> Confirm Password: </label>{" "}
@@ -112,6 +145,7 @@ class Register extends Component {
               name="confirmPassword"
               type="password"
               placeholder="Type Password again.."
+              value={this.state.confirmPassword}
               onChange={this.handleChange}
             />{" "}
           </div>{" "}
@@ -121,6 +155,14 @@ class Register extends Component {
             </button>{" "}
             <button value="reset"> Reset </button>{" "}
           </div>{" "}
+          <h4> or </h4>{" "}
+          <FacebookLogin
+            className="fb"
+            appId="1088597931155576"
+            fields="name,email,picture"
+            onClick={this.componentClicked}
+            callback={this.responseFacebook}
+          />{" "}
         </div>{" "}
       </form>
     );
