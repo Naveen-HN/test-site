@@ -36,6 +36,11 @@ function Header() {
                 LOGIN{" "}
               </Link>{" "}
             </li>{" "}
+            <li>
+              <Link to="/items" style={LinkStyle}>
+                ITEMS{" "}
+              </Link>{" "}
+            </li>{" "}
           </ul>{" "}
         </nav>{" "}
       </div>{" "}
