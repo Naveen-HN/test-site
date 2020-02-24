@@ -1,5 +1,5 @@
-import React, { useState } from "react";
-import uuid from "uuid/v1";
+import React, { useState, useEffect } from "react";
+import { v1 as uuidv1 } from "uuid";
 import ItemsForm from "./ItemsForm";
 
 const ItemsList = () => {
@@ -9,8 +9,12 @@ const ItemsList = () => {
     { name: "Tablets", id: 3 }
   ]);
   const addItem = name => {
-    setItems([...items, { name, id: uuid() }]);
+    setItems([...items, { name, id: uuidv1() }]);
   };
+
+  useEffect(() => {
+    console.log("Use Effect Ran");
+  });
 
   return (
     <div className="item-list">
