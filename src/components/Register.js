@@ -1,12 +1,7 @@
 import React, { Component } from "react";
 import "../styles.css";
-<<<<<<< HEAD
 import { createUser } from "../Actions";
 import { connect } from "react-redux";
-=======
-import axios from "axios";
-import FacebookLogin from "react-facebook-login";
->>>>>>> 7b18bd9d06b77f3dc2f0f90e6563ac546a15fac2
 class Register extends Component {
   constructor(props) {
     super(props);
@@ -34,25 +29,7 @@ class Register extends Component {
 
   handleSubmit = event => {
     event.preventDefault();
-<<<<<<< HEAD
     this.props.dispatch(createUser(this.state.fields));
-=======
-    // if (this.validateForm()) {
-    const newUser = {
-      firstName: this.state.firstName,
-      lastName: this.state.lastName,
-      phone: this.state.phone,
-      userName: this.state.userName,
-      password: this.state.password,
-      confirmPassword: this.state.confirmPassword
-    };
-
-    axios
-      .post("http://localhost:4000/users/add", newUser)
-      .then(res => console.log(res.data));
-
-    alert("Form submitted");
->>>>>>> 7b18bd9d06b77f3dc2f0f90e6563ac546a15fac2
   };
 
   // validateForm = () => {
